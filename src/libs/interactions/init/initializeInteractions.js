@@ -2,10 +2,9 @@ const {REST} = require('@discordjs/rest');
 const {Routes} = require('discord-api-types/v9');
 const {discordClientId, discordToken, shouldCreateCommands} = require('../../config');
 const logger = require('../../logger');
-const commandCache = require('../../commandCache');
 
 module.exports = async () => {
-    const commands = commandCache;
+    const commands = require('../../commandCache');;
 
     if(shouldCreateCommands){
         logger.info('Registering interactions with Discord');

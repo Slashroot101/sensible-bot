@@ -3,6 +3,7 @@ const logger = require('./libs/logger')
 const {discordToken} = require('./libs/config');
 const {ready, interactionCreate, messageCreate, guildCreate, guildDelete} = require('./libs/events');
 const initializeInteractions = require('./libs/interactions/init/initializeInteractions');
+const {loadRuleData} = require('./libs/interactions/init/initializeRuleData');
 
 const client = new Client({ intents: [GatewayIntentBits.Guilds, GatewayIntentBits.GuildMessages, GatewayIntentBits.MessageContent] });
 
@@ -10,6 +11,10 @@ client.commands = new Collection();
 
 (async () => {
     logger.info(`Bot beginning startup`);
+
+    logger.info('Loading command data and caching it');
+    await loadRuleData();
+    logger.info('Completed caching role data');
 
     const commands = await initializeInteractions();
     commands.forEach(command => {

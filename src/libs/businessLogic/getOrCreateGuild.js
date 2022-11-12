@@ -15,7 +15,7 @@ module.exports = async (discordSnowflake) => {
     }
 
     if(guilds.discordGuilds.length === 1){
-        guild = guilds[0];
+        guild = guilds.discordGuilds[0];
     }
 
     return guild;

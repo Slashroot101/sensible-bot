@@ -1,13 +1,17 @@
 const logger = require('../logger');
+const getOrCreateGuild = require('../businessLogic/getOrCreateGuild');
+const getOrCreateUser = require('../businessLogic/getOrCreateUser');
 
 module.exports = async (interaction, user) => {
     try {
-        const user = await getOrCreateUser(e.author.id);
-        const guild = await getOrCreateGuild(e.guild.id);
+        if (!interaction.isChatInputCommand()) return;
+
+        const user = await getOrCreateUser(interaction.user.id);
+        const guild = await getOrCreateGuild(interaction.guild.id);
         const command = interaction.client.commands.get(interaction.commandName);
 
-        await command.execute(interaction, user);
+        await command.execute(interaction, user, guild);
     } catch (err) {
-        logger.err(err, 'An error occured executing a command');
+        logger.error(err, 'An error occured executing a command');
     }
 };

@@ -17,8 +17,8 @@
   },
   "homepage": "https://github.com/Slashroot101/sensible-bot#readme",
   "dependencies": {
-    "@discordjs/builders": "^0.12.0",
-    "@discordjs/rest": "^0.3.0",
+    "@discordjs/builders": "^1.3.0",
+    "@discordjs/rest": "^1.3.0",
     "axios": "^0.27.2",
     "cross-env": "^7.0.3",
     "discord.js": "^14.3.0",
