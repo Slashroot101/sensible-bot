@@ -5,7 +5,6 @@ const logger = require('../logger');
 exports.createUser = async (props) => {
     logger.info(`Creating user with Axios post with [discordSnowflake=${props.discordSnowflake}]`)
     const user = await axios.post(`${apiUrl}/discord-user/`, {discordUser:props});
-
     return user.data;
 };
 

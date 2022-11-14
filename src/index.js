@@ -4,13 +4,19 @@ const {discordToken} = require('./libs/config');
 const {ready, interactionCreate, messageCreate, guildCreate, guildDelete} = require('./libs/events');
 const initializeInteractions = require('./libs/interactions/init/initializeInteractions');
 const {loadRuleData} = require('./libs/interactions/init/initializeRuleData');
+const handlePunish = require('./libs/events/nats/handlePunish');
 
 const client = new Client({ intents: [GatewayIntentBits.Guilds, GatewayIntentBits.GuildMessages, GatewayIntentBits.MessageContent] });
 
 client.commands = new Collection();
 
-(async () => {
+module.exports = (async () => {
     logger.info(`Bot beginning startup`);
+
+    const nats = await require('./libs/nats');
+    logger.info('Subscribing to NATS queues');
+
+    nats.subscribe('punish', {callback: handlePunish});
 
     logger.info('Loading command data and caching it');
     await loadRuleData();
@@ -30,4 +36,6 @@ client.commands = new Collection();
     logger.info('Authenticating with Discord');
     await client.login(discordToken);
     logger.info('Completed Discord authentication');
+
+    return client;
 })();

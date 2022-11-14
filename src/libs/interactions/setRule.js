@@ -29,7 +29,7 @@ module.exports = {
         const ruleName = interaction.options.get('name').value;
         const ruleAction = interaction.options.get('action').value;
         const enabled = interaction.options.get('enabled').value;
-
+        console.log(ruleAction)
         await patchConfigStore(guild.id, ruleName, {ruleActionId: ruleAction, enabled, discordGuild: interaction.guild.id, ruleId: ruleName,});
         await interaction.reply('Succesfully updated the rule!');
     }
