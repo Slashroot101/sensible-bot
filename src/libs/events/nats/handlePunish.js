@@ -10,6 +10,7 @@ module.exports = async (err, msg) => {
     const message = await channel.messages.fetch(parsedMessage.messageId);
     const guild = await client.guilds.cache.get(parsedMessage.guild.discordSnowflake);
     const member = guild.members.cache.get(parsedMessage.user.discordSnowflake);
+
     const shouldDelete = parsedMessage.punishments.filter(x => x['swearing']?.contains || x['blacklist']?.contains);
     if (shouldDelete.length){
         logger.info(`Deleting message [messageId=${parsedMessage.messageId}]`);
