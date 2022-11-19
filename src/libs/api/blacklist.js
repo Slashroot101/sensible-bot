@@ -11,5 +11,5 @@ exports.addWord = async (guildId, props) => {
 
 exports.deleteWord = async (guildId, props) => {
   logger.info(`Deleting blacklist word for [guildId=${guildId}] and [word=${props.word}] `);
-  await axios.put(`${apiUrl}/guild-blacklist/discord/guild${guildId}/delete`, {...props});
+  await axios.put(`${apiUrl}/guild-blacklist/discord-guild/${guildId}/delete`, {...props});
 }
