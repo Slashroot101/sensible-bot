@@ -1,4 +1,6 @@
 const { SlashCommandBuilder } = require("@discordjs/builders");
+const { EmbedBuilder} = require('discord.js');
+const { queryWarnings } = require('../api/warnings');
 
 module.exports = {
     data: new SlashCommandBuilder()
