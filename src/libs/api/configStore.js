@@ -8,3 +8,10 @@ exports.patchConfigStore = async (guildId, ruleId, props) => {
 
     return request.data;
 };
+
+exports.getDiscordRuleByRuleAction = async (ruleId, actionId) => {
+    logger.info(`Fetching discord guild rules for [ruleId=${ruleId}]/[actionId=${actionId}]`);
+    const request = await axios.get(`${apiUrl}/config-store/rule/${ruleId}/action/${actionId}`);
+
+    return request.data;
+};
