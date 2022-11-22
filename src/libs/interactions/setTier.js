@@ -22,7 +22,7 @@ module.exports = {
                                 .setName('action')
                                 .setDescription('what action should occur when the threshold is reached')
                                 .setRequired(true)
-                                .addChoices(...ruleActions.map(x => {return {name: x.name, value: x.id.toString()}}));
+                                .addChoices(...ruleActions.filter(x => x.name !== 'tiered').map(x => {return {name: x.name, value: x.id.toString()}}));
                         })
                         .addNumberOption(opt => opt.setName('maxoffenses').setDescription('The max offenses before this tier is executed').setRequired(true)),
   async execute(interaction, user, guild){
@@ -34,16 +34,16 @@ module.exports = {
     let discordRule = await getDiscordRuleByRuleAction(ruleId, actionId);
 
     if(!discordRule.rule){
-      logger.info(`Creating discord rule because it does not exist [ruleId=${ruleId}]/[actionId=${actionId}]/[guildId=${interaction.guild.id}]`);
-      discordRule = await patchConfigStore(interaction.guild.id, ruleId, {ruleActionId: actionId, enabled: true, discordGuild: interaction.guild.id, ruleId: ruleId,});
+      logger.info(`Creating discord rule because it does not exist [ruleId=${ruleId}]/[actionId=${actionId}]/[guildId=${guild.id}]`);
+      discordRule = await patchConfigStore(guild.id, ruleId, {enabled: true, discordGuildId: guild.id, ruleId: ruleId,});
     }
-
-    const tier = await getTier(actionId, discordRule.rule.id);
+    console.log(discordRule)
+    const tier = await getTier(actionId, discordRule.DiscordGuildRule.id);
     if(tier.tier){
-      await patchTier(tier.tier.id, {tier: {maxOffenses, discordGuildRuleId: discordRule.rule.id, ruleActionId: actionId}});
+      await patchTier(tier.tier.id, {tier: {maxOffenses, discordGuildRuleId: discordRule.DiscordGuildRule.id, ruleActionId: actionId}});
       await interaction.reply(`Succesfully updated the tier!`);
     } else {
-      await createTier({tier: {discordGuildRuleId: discordRule.rule.id, maxOffenses, ruleActionId: actionId}});
+      await createTier({tier: {discordGuildRuleId: discordRule.DiscordGuildRule.id, maxOffenses, ruleActionId: actionId}});
       await interaction.reply(`Succesfully added the tier!`);
     }
   }

@@ -2,6 +2,7 @@ const { SlashCommandBuilder } = require("discord.js");
 const { patchConfigStore } = require("../api/configStore");
 const logger = require("../logger");
 const {getRuleData} = require('../interactions/init/initializeRuleData')
+const getOrCreateGuild = require('../businessLogic/getOrCreateGuild');
 
 module.exports = {
     data: new SlashCommandBuilder()
@@ -30,7 +31,7 @@ module.exports = {
         const ruleAction = interaction.options.get('action').value;
         const enabled = interaction.options.get('enabled').value;
 
-        await patchConfigStore(guild.id, ruleName, {ruleActionId: ruleAction, enabled, discordGuild: interaction.guild.id, ruleId: ruleName,});
+        await patchConfigStore(guild.id, ruleName, {ruleActionId: ruleAction, enabled, discordGuildId: guild.id, ruleId: ruleName,});
         await interaction.reply('Succesfully updated the rule!');
     }
 }
